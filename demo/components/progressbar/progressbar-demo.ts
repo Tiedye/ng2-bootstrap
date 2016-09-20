@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Ng2BootstrapConfig, Ng2BootstrapTheme } from '../../../ng2-bootstrap';
+import { Ng2BootstrapConfigService, Ng2BootstrapTheme } from '../../../ng2-bootstrap';
 
 // switch bs3\bs4 templates
 // webpack html imports
@@ -11,7 +11,7 @@ let templates:any = {
 
 @Component({
   selector: 'progressbar-demo',
-  template: templates[Ng2BootstrapConfig.theme]
+  template: templates[Ng2BootstrapConfigService.theme]
 })
 export class ProgressbarDemoComponent {
   public max:number = 200;

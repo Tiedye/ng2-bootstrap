@@ -3,7 +3,7 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 
 // tslint:disable-next-line:no-unused-variable
-import { Ng2BootstrapConfig, Ng2BootstrapTheme } from '../ng2-bootstrap-config';
+import { Ng2BootstrapConfigService, Ng2BootstrapTheme } from '../ng2-bootstrap-config.service';
 import { SlideComponent } from './slide.component';
 
 export enum Direction {UNKNOWN, NEXT, PREV}

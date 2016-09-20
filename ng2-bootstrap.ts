@@ -16,7 +16,7 @@ export * from './components/typeahead';
 
 export * from './components/position';
 export * from './components/common';
-export * from './components/ng2-bootstrap-config';
+export * from './components/ng2-bootstrap-config.service';
 
 export { AccordionModule } from './components/accordion/accordion.module';
 export { AlertModule } from './components/alert/alert.module';

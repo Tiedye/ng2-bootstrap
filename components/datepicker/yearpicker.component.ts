@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Ng2BootstrapConfig } from '../ng2-bootstrap-config';
+import { Ng2BootstrapConfigService } from '../ng2-bootstrap-config.service';
 import { DatePickerInnerComponent } from './datepicker-inner.component';
 
 // write an interface for template options
@@ -28,7 +28,7 @@ const TEMPLATE_OPTIONS:any = {
 };
 
 // tslint:disable-next-line:no-unused-variable
-const CURRENT_THEME_TEMPLATE:any = TEMPLATE_OPTIONS[Ng2BootstrapConfig.theme] || TEMPLATE_OPTIONS.bs3;
+const CURRENT_THEME_TEMPLATE:any = TEMPLATE_OPTIONS[Ng2BootstrapConfigService.theme] || TEMPLATE_OPTIONS.bs3;
 
 @Component({
   selector: 'yearpicker',

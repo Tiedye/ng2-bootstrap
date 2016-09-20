@@ -1,95 +1,67 @@
 import { Component, ElementRef, TemplateRef, ViewEncapsulation } from '@angular/core';
 
-// tslint:disable-next-line:no-unused-variable
-import { Ng2BootstrapConfig, Ng2BootstrapTheme } from '../ng2-bootstrap-config';
+import { Ng2BootstrapConfigService } from '../ng2-bootstrap-config.service';
 import { positionService } from '../position';
 import { TypeaheadOptions } from './typeahead-options.class';
 import { TypeaheadUtils } from './typeahead-utils';
 import { TypeaheadDirective } from './typeahead.directive';
 
-// tslint:disable-next-line:no-unused-variable
-const TEMPLATE:any = {
-  [Ng2BootstrapTheme.BS4]: `
-  <div class="dropdown-menu"
-       style="display: block"
-       [ngStyle]="{top: top, left: left, display: display}"
-       (mouseleave)="focusLost()">
-       <div *ngIf="!itemTemplate">
-          <a href="#"
-            *ngFor="let match of matches"
-            class="dropdown-item"
-            (click)="selectMatch(match, $event)"
-            (mouseenter)="selectActive(match)"
-            [class.active]="isActive(match)"
-            [innerHtml]="hightlight(match, query)"></a>
-      </div>
-      <div *ngIf="itemTemplate">
-        <a href="#"
-         *ngFor="let match of matches; let i = index"
-         class="dropdown-item"
-         (click)="selectMatch(match, $event)"
-         (mouseenter)="selectActive(match)"
-         [class.active]="isActive(match)">
-          <template [ngTemplateOutlet]="itemTemplate"
-                    [ngOutletContext]="{item: match, index: i}">
-          </template>
-         </a>
-      </div>
-  </div>
-  `,
-  [Ng2BootstrapTheme.BS3]: `
-  <ul class="dropdown-menu"
-      style="display: block"
-      [ngStyle]="{top: top, left: left, display: display}"
-      (mouseleave)="focusLost()">
-    <li *ngFor="let match of matches; let i = index"
-        [class.active]="isActive(match)"
-        (mouseenter)="selectActive(match)">
-        <a href="#" 
-           *ngIf="!itemTemplate" 
-           (click)="selectMatch(match, $event)" 
-           tabindex="-1" 
-           [innerHtml]="hightlight(match, query)"></a>
-        <a href="#" 
-           *ngIf="itemTemplate" 
-           (click)="selectMatch(match, $event)" 
-           tabindex="-1">
-            <template [ngTemplateOutlet]="itemTemplate"
-                      [ngOutletContext]="{item: match, index: i}">
-            </template>
-        </a>
-    </li>
-  </ul>
-  `
-};
 @Component({
   selector: 'typeahead-container',
-  template: `<div class="dropdown-menu"
-       style="display: block"
-       [ngStyle]="{top: top, left: left, display: display}"
-       (mouseleave)="focusLost()">
-       <div *ngIf="!itemTemplate">
-          <a href="#"
-            *ngFor="let match of matches"
-            class="dropdown-item"
-            (click)="selectMatch(match, $event)"
-            (mouseenter)="selectActive(match)"
-            [class.active]="isActive(match)"
-            [innerHtml]="hightlight(match, query)"></a>
-      </div>
-      <div *ngIf="itemTemplate">
+  template: `<template [ngSwitch]="config.theme">
+  <template [ngSwitchCase]="config.themes.BS3">
+    <ul class="dropdown-menu"
+        style="display: block"
+        [ngStyle]="{top: top, left: left, display: display}"
+        (mouseleave)="focusLost()">
+      <li *ngFor="let match of matches; let i = index"
+          [class.active]="isActive(match)"
+          (mouseenter)="selectActive(match)">
         <a href="#"
-         *ngFor="let match of matches; let i = index"
-         class="dropdown-item"
-         (click)="selectMatch(match, $event)"
-         (mouseenter)="selectActive(match)"
-         [class.active]="isActive(match)">
+           *ngIf="!itemTemplate"
+           (click)="selectMatch(match, $event)"
+           tabindex="-1"
+           [innerHtml]="hightlight(match, query)"></a>
+        <a href="#"
+           *ngIf="itemTemplate"
+           (click)="selectMatch(match, $event)"
+           tabindex="-1">
           <template [ngTemplateOutlet]="itemTemplate"
                     [ngOutletContext]="{item: match, index: i}">
           </template>
-         </a>
+        </a>
+      </li>
+    </ul>
+  </template>
+  <template [ngSwitchCase]="config.themes.BS4">
+    <div class="dropdown-menu"
+         style="display: block"
+         [ngStyle]="{top: top, left: left, display: display}"
+         (mouseleave)="focusLost()">
+      <div *ngIf="!itemTemplate">
+        <a href="#"
+           *ngFor="let match of matches"
+           class="dropdown-item"
+           (click)="selectMatch(match, $event)"
+           (mouseenter)="selectActive(match)"
+           [class.active]="isActive(match)"
+           [innerHtml]="hightlight(match, query)"></a>
       </div>
-  </div>`,
+      <div *ngIf="itemTemplate">
+        <a href="#"
+           *ngFor="let match of matches; let i = index"
+           class="dropdown-item"
+           (click)="selectMatch(match, $event)"
+           (mouseenter)="selectActive(match)"
+           [class.active]="isActive(match)">
+          <template [ngTemplateOutlet]="itemTemplate"
+                    [ngOutletContext]="{item: match, index: i}">
+          </template>
+        </a>
+      </div>
+    </div>
+  </template>
+</template>`,
   encapsulation: ViewEncapsulation.None
 })
 export class TypeaheadContainerComponent {
@@ -105,7 +77,8 @@ export class TypeaheadContainerComponent {
   private display:string;
   private placement:string;
 
-  public constructor(element:ElementRef, options:TypeaheadOptions) {
+  // tslint:disable-next-line:no-unused-variable
+  public constructor(element:ElementRef, options:TypeaheadOptions, config:Ng2BootstrapConfigService) {
     this.element = element;
     Object.assign(this, options);
   }
