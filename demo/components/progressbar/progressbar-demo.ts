@@ -11,16 +11,19 @@ let templates:any = {
 
 @Component({
   selector: 'progressbar-demo',
-  template: templates[Ng2BootstrapConfigService.theme]
+  template: `<template [ngIf]="isBs3">${templates[Ng2BootstrapTheme.BS3]}</template>
+<template [ngIf]="!isBs3">${templates[Ng2BootstrapTheme.BS4]}</template>`
 })
 export class ProgressbarDemoComponent {
+  public isBs3:boolean;
   public max:number = 200;
   public showWarning:boolean;
   public dynamic:number;
   public type:string;
   public stacked:any[] = [];
 
-  public constructor() {
+  public constructor(private config:Ng2BootstrapConfigService) {
+    this.isBs3 = config.theme === Ng2BootstrapTheme.BS3;
     this.random();
     this.randomStacked();
   }

@@ -16,7 +16,7 @@ export * from './components/typeahead';
 
 export * from './components/position';
 export * from './components/common';
-export * from './components/ng2-bootstrap-config.service';
+export * from './components/ng2-bootstrap-config';
 
 export { AccordionModule } from './components/accordion/accordion.module';
 export { AlertModule } from './components/alert/alert.module';
@@ -34,5 +34,7 @@ export { TimepickerModule } from './components/timepicker/timepicker.module';
 export { TooltipModule } from './components/tooltip/tooltip.module';
 export { TypeaheadModule } from './components/typeahead/typeahead.module';
 export { ComponentsHelper } from './components/utils/components-helper.service';
+
+export { Ng2BootstrapConfigModule } from './components/configuration/ng2-bootstrap-config.module';
 
 export { Ng2BootstrapModule } from './components/index';

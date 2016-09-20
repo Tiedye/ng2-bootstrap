@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CarouselModule } from './carousel.module';
+import { Ng2BootstrapConfigModule } from '../configuration/ng2-bootstrap-config.module';
 
 const html = `
   <div id="c1">
@@ -52,7 +53,7 @@ describe('Component: Carousel', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestCarouselComponent],
-      imports: [CarouselModule]
+      imports: [CarouselModule, Ng2BootstrapConfigModule]
     });
     TestBed.overrideComponent(TestCarouselComponent, {set: {template: html}});
     fixture = TestBed.createComponent(TestCarouselComponent);

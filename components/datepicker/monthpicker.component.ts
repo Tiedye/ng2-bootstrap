@@ -1,30 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Ng2BootstrapConfigService } from '../ng2-bootstrap-config.service';
+import { Ng2BootstrapConfigService } from '../ng2-bootstrap-config';
 import { DatePickerInnerComponent } from './datepicker-inner.component';
-
-// write an interface for template options
-const TEMPLATE_OPTIONS:any = {
-  bs4: {
-    MONTH_BUTTON: `
-        <button type="button" style="min-width:100%;" class="btn btn-default"
-                [ngClass]="{'btn-info': dtz.selected, 'btn-link': !dtz.selected && !datePicker.isActive(dtz), active: !dtz.selected && datePicker.isActive(dtz), disabled: dtz.disabled}"
-                [disabled]="dtz.disabled"
-                (click)="datePicker.select(dtz.date)" tabindex="-1"><span [ngClass]="{'text-success': dtz.current}">{{dtz.label}}</span></button>
-    `
-  },
-  bs3: {
-    MONTH_BUTTON: `
-        <button type="button" style="min-width:100%;" class="btn btn-default"
-                [ngClass]="{'btn-info': dtz.selected, active: datePicker.isActive(dtz), disabled: dtz.disabled}"
-                [disabled]="dtz.disabled"
-                (click)="datePicker.select(dtz.date)" tabindex="-1"><span [ngClass]="{'text-info': dtz.current}">{{dtz.label}}</span></button>
-    `
-  }
-};
-
-// tslint:disable-next-line:no-unused-variable
-const CURRENT_THEME_TEMPLATE:any = TEMPLATE_OPTIONS[Ng2BootstrapConfigService.theme] || TEMPLATE_OPTIONS.bs3;
 
 @Component({
   selector: 'monthpicker',
@@ -57,10 +34,18 @@ const CURRENT_THEME_TEMPLATE:any = TEMPLATE_OPTIONS[Ng2BootstrapConfigService.th
   <tbody>
     <tr *ngFor="let rowz of rows">
       <td *ngFor="let dtz of rowz" class="text-center" role="gridcell" id="{{dtz.uid}}" [ngClass]="dtz.customClass">
-        <button type="button" style="min-width:100%;" class="btn btn-default"
-                [ngClass]="{'btn-info': dtz.selected, 'btn-link': !dtz.selected && !datePicker.isActive(dtz), active: !dtz.selected && datePicker.isActive(dtz), disabled: dtz.disabled}"
-                [disabled]="dtz.disabled"
-                (click)="datePicker.select(dtz.date)" tabindex="-1"><span [ngClass]="{'text-success': dtz.current}">{{dtz.label}}</span></button>
+        <template [ngIf]="config.theme == config.themes.BS4">
+          <button type="button" style="min-width:100%;" class="btn btn-default"
+                  [ngClass]="{'btn-info': dtz.selected, 'btn-link': !dtz.selected && !datePicker.isActive(dtz), active: !dtz.selected && datePicker.isActive(dtz), disabled: dtz.disabled}"
+                  [disabled]="dtz.disabled"
+                  (click)="datePicker.select(dtz.date)" tabindex="-1"><span [ngClass]="{'text-success': dtz.current}">{{dtz.label}}</span></button>
+        </template>
+        <template [ngIf]="config.theme == config.themes.BS3">
+          <button type="button" style="min-width:100%;" class="btn btn-default"
+                  [ngClass]="{'btn-info': dtz.selected, active: datePicker.isActive(dtz), disabled: dtz.disabled}"
+                  [disabled]="dtz.disabled"
+                  (click)="datePicker.select(dtz.date)" tabindex="-1"><span [ngClass]="{'text-info': dtz.current}">{{dtz.label}}</span></button>
+        </template>
       </td>
     </tr>
   </tbody>
@@ -72,7 +57,7 @@ export class MonthPickerComponent implements OnInit {
   public rows:Array<any> = [];
   public datePicker:DatePickerInnerComponent;
 
-  public constructor(datePicker:DatePickerInnerComponent) {
+  public constructor(datePicker:DatePickerInnerComponent, public config:Ng2BootstrapConfigService) {
     this.datePicker = datePicker;
   }
 

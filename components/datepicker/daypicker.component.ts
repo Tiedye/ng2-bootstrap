@@ -1,56 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Ng2BootstrapConfigService, Ng2BootstrapTheme } from '../ng2-bootstrap-config.service';
+import { Ng2BootstrapConfigService } from '../ng2-bootstrap-config';
 import { DatePickerInnerComponent } from './datepicker-inner.component';
-
-// write an interface for template options
-const TEMPLATE_OPTIONS:any = {
-  [Ng2BootstrapTheme.BS4]: {
-    DAY_TITLE: `
-        <th *ngFor="let labelz of labels" class="text-xs-center"><small aria-label="labelz.full"><b>{{labelz.abbr}}</b></small></th>
-    `,
-    WEEK_ROW: `
-        <td *ngIf="datePicker.showWeeks" class="text-xs-center h6"><em>{{ weekNumbers[index] }}</em></td>
-        <td *ngFor="let dtz of rowz" class="text-xs-center" role="gridcell" [id]="dtz.uid">
-          <button type="button" style="min-width:100%;" class="btn btn-sm {{dtz.customClass}}"
-                  *ngIf="!(datePicker.onlyCurrentMonth && dtz.secondary)"
-                  [ngClass]="{'btn-secondary': !dtz.selected && !datePicker.isActive(dtz), 'btn-info': dtz.selected, disabled: dtz.disabled}"
-                  [disabled]="dtz.disabled"
-                  (click)="datePicker.select(dtz.date)" tabindex="-1">
-            <span [ngClass]="{'text-muted': dtz.secondary || dtz.current}">{{dtz.label}}</span>
-          </button>
-        </td>
-    `,
-    ARROW_LEFT: '&lt;',
-    ARROW_RIGHT: '&gt;'
-  },
-  [Ng2BootstrapTheme.BS3]: {
-    DAY_TITLE: `
-        <th *ngFor="let labelz of labels" class="text-center"><small aria-label="labelz.full"><b>{{labelz.abbr}}</b></small></th>
-    `,
-    WEEK_ROW: `
-        <td *ngIf="datePicker.showWeeks" class="text-center h6"><em>{{ weekNumbers[index] }}</em></td>
-        <td *ngFor="let dtz of rowz" class="text-center" role="gridcell" [id]="dtz.uid">
-          <button type="button" style="min-width:100%;" class="btn btn-default btn-sm {{dtz.customClass}}"
-                  *ngIf="!(datePicker.onlyCurrentMonth && dtz.secondary)"
-                  [ngClass]="{'btn-info': dtz.selected, active: datePicker.isActive(dtz), disabled: dtz.disabled}"
-                  [disabled]="dtz.disabled"
-                  (click)="datePicker.select(dtz.date)" tabindex="-1">
-            <span [ngClass]="{'text-muted': dtz.secondary, 'text-info': dtz.current}">{{dtz.label}}</span>
-          </button>
-        </td>
-    `,
-    ARROW_LEFT: `
-    <i class="glyphicon glyphicon-chevron-left"></i>
-    `,
-    ARROW_RIGHT: `
-    <i class="glyphicon glyphicon-chevron-right"></i>
-    `
-  }
-};
-
-// tslint:disable-next-line:no-unused-variable
-const CURRENT_THEME_TEMPLATE:any = TEMPLATE_OPTIONS[Ng2BootstrapConfigService.theme || Ng2BootstrapTheme.BS3];
 
 @Component({
   selector: 'daypicker',
@@ -60,7 +11,8 @@ const CURRENT_THEME_TEMPLATE:any = TEMPLATE_OPTIONS[Ng2BootstrapConfigService.th
     <tr>
       <th>
         <button type="button" class="btn btn-default btn-secondary btn-sm pull-left" (click)="datePicker.move(-1)" tabindex="-1">
-        &lt;
+        <template [ngIf]="config.theme == config.themes.BS4">&lt;</template>
+        <template [ngIf]="config.theme == config.themes.BS3"><i class="glyphicon glyphicon-chevron-left"></i></template>
         </button>
       </th>
       <th [attr.colspan]="5 + datePicker.showWeeks">
@@ -74,28 +26,48 @@ const CURRENT_THEME_TEMPLATE:any = TEMPLATE_OPTIONS[Ng2BootstrapConfigService.th
       </th>
       <th>
         <button type="button" class="btn btn-default btn-secondary btn-sm pull-right" (click)="datePicker.move(1)" tabindex="-1">
-        &gt;
+        <template [ngIf]="config.theme == config.themes.BS4">&gt;</template>
+        <template [ngIf]="config.theme == config.themes.BS3"><i class="glyphicon glyphicon-chevron-right"></i></template>
         </button>
       </th>
     </tr>
     <tr>
       <th *ngIf="datePicker.showWeeks"></th>
-      <th *ngFor="let labelz of labels" class="text-xs-center"><small aria-label="labelz.full"><b>{{labelz.abbr}}</b></small></th>
+      <template [ngIf]="config.theme == config.themes.BS4">
+        <th *ngFor="let labelz of labels" class="text-xs-center"><small aria-label="labelz.full"><b>{{labelz.abbr}}</b></small></th>
+      </template>
+      <template [ngIf]="config.theme == config.themes.BS3">
+        <th *ngFor="let labelz of labels" class="text-center"><small aria-label="labelz.full"><b>{{labelz.abbr}}</b></small></th>
+      </template>
     </tr>
   </thead>
   <tbody>
     <template ngFor [ngForOf]="rows" let-rowz="$implicit" let-index="index">
       <tr *ngIf="!(datePicker.onlyCurrentMonth && rowz[0].secondary && rowz[6].secondary)">
-        <td *ngIf="datePicker.showWeeks" class="text-xs-center h6"><em>{{ weekNumbers[index] }}</em></td>
-        <td *ngFor="let dtz of rowz" class="text-xs-center" role="gridcell" [id]="dtz.uid">
-          <button type="button" style="min-width:100%;" class="btn btn-sm {{dtz.customClass}}"
-                  *ngIf="!(datePicker.onlyCurrentMonth && dtz.secondary)"
-                  [ngClass]="{'btn-secondary': !dtz.selected && !datePicker.isActive(dtz), 'btn-info': dtz.selected, disabled: dtz.disabled}"
-                  [disabled]="dtz.disabled"
-                  (click)="datePicker.select(dtz.date)" tabindex="-1">
-            <span [ngClass]="{'text-muted': dtz.secondary || dtz.current}">{{dtz.label}}</span>
-          </button>
-        </td>
+        <template [ngIf]="config.theme == config.themes.BS4">
+          <td *ngIf="datePicker.showWeeks" class="text-xs-center h6"><em>{{ weekNumbers[index] }}</em></td>
+          <td *ngFor="let dtz of rowz" class="text-xs-center" role="gridcell" [id]="dtz.uid">
+            <button type="button" style="min-width:100%;" class="btn btn-sm {{dtz.customClass}}"
+                    *ngIf="!(datePicker.onlyCurrentMonth && dtz.secondary)"
+                    [ngClass]="{'btn-secondary': !dtz.selected && !datePicker.isActive(dtz), 'btn-info': dtz.selected, disabled: dtz.disabled}"
+                    [disabled]="dtz.disabled"
+                    (click)="datePicker.select(dtz.date)" tabindex="-1">
+              <span [ngClass]="{'text-muted': dtz.secondary || dtz.current}">{{dtz.label}}</span>
+            </button>
+          </td>
+        </template>
+        <template [ngIf]="config.theme == config.themes.BS3">
+          <td *ngIf="datePicker.showWeeks" class="text-center h6"><em>{{ weekNumbers[index] }}</em></td>
+          <td *ngFor="let dtz of rowz" class="text-center" role="gridcell" [id]="dtz.uid">
+            <button type="button" style="min-width:100%;" class="btn btn-default btn-sm {{dtz.customClass}}"
+                    *ngIf="!(datePicker.onlyCurrentMonth && dtz.secondary)"
+                    [ngClass]="{'btn-info': dtz.selected, active: datePicker.isActive(dtz), disabled: dtz.disabled}"
+                    [disabled]="dtz.disabled"
+                    (click)="datePicker.select(dtz.date)" tabindex="-1">
+              <span [ngClass]="{'text-muted': dtz.secondary, 'text-info': dtz.current}">{{dtz.label}}</span>
+            </button>
+          </td>
+        </template>
       </tr>
     </template>
   </tbody>
@@ -110,7 +82,7 @@ export class DayPickerComponent implements OnInit {
   public weekNumbers:Array<number> = [];
   public datePicker:DatePickerInnerComponent;
 
-  public constructor(datePicker:DatePickerInnerComponent) {
+  public constructor(datePicker:DatePickerInnerComponent, public config:Ng2BootstrapConfigService) {
     this.datePicker = datePicker;
   }
 

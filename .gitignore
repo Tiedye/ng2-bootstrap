@@ -21,10 +21,15 @@ npm-debug.log
 /demo/**/*.js
 /demo/**/*.js.map
 /demo/**/*.d.ts
+/demo/**/*.metadata.json
 /components/**/*.js
 /components/**/*.js.map
 /components/**/*.d.ts
+/components/**/*.metadata.json
 ng2-bootstrap.js
 ng2-bootstrap.d.ts
 ng2-bootstrap.js.map
+ng2-bootstrap.metadata.json
 /logs
+
+/factories

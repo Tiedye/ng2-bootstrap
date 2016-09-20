@@ -3,12 +3,6 @@ import { NavigationEnd, Router } from '@angular/router';
 
 import { Ng2BootstrapConfigService, Ng2BootstrapTheme } from '../ng2-bootstrap';
 
-let w:any = window;
-
-if (w && w.__theme === 'bs4') {
-  Ng2BootstrapConfigService.theme = Ng2BootstrapTheme.BS4;
-}
-
 let template = require('./demo.template.html');
 
 @Component({
@@ -17,12 +11,20 @@ let template = require('./demo.template.html');
 })
 
 export class DemoComponent implements AfterContentInit {
-  public isBs3:boolean = Ng2BootstrapConfigService.theme === Ng2BootstrapTheme.BS3;
+  public isBs3:boolean;
   private viewContainerRef:ViewContainerRef;
 
-  public constructor(viewContainerRef:ViewContainerRef, private router:Router) {
+  public constructor(viewContainerRef:ViewContainerRef, private router:Router, private config:Ng2BootstrapConfigService) {
     // You need this small hack in order to catch application root view container ref
     this.viewContainerRef = viewContainerRef;
+
+    let w:any = window;
+
+    if (w && w.__theme === 'bs4') {
+      config.theme = Ng2BootstrapTheme.BS4;
+    }
+
+    this.isBs3 = this.config.theme === Ng2BootstrapTheme.BS3;
   }
 
   public ngAfterContentInit():any {

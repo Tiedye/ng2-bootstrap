@@ -13,8 +13,6 @@ let templates:any = {
   [Ng2BootstrapTheme.BS4]: require('!!raw?lang=markup!./progressbar/progressbar-demo-bs4.html')
 };
 
-let html = templates[Ng2BootstrapConfigService.theme];
-
 @Component({
   selector: 'progressbar-section',
   template: `
@@ -25,8 +23,12 @@ let html = templates[Ng2BootstrapConfigService.theme];
 export class ProgressbarSectionComponent {
   public name:string = 'Progressbar';
   public src:string = 'https://github.com/valor-software/ng2-bootstrap/blob/master/components/progressbar';
-  public html:string = html;
+  public html:string;
   public ts:string = ts;
   public titleDoc:string = titleDoc;
   public doc:string = doc;
+
+  public constructor(public config:Ng2BootstrapConfigService) {
+    this.html = templates[config.theme];
+  }
 }

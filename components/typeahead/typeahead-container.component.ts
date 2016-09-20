@@ -1,6 +1,6 @@
 import { Component, ElementRef, TemplateRef, ViewEncapsulation } from '@angular/core';
 
-import { Ng2BootstrapConfigService } from '../ng2-bootstrap-config.service';
+import { Ng2BootstrapConfigService } from '../ng2-bootstrap-config';
 import { positionService } from '../position';
 import { TypeaheadOptions } from './typeahead-options.class';
 import { TypeaheadUtils } from './typeahead-utils';
@@ -8,8 +8,8 @@ import { TypeaheadDirective } from './typeahead.directive';
 
 @Component({
   selector: 'typeahead-container',
-  template: `<template [ngSwitch]="config.theme">
-  <template [ngSwitchCase]="config.themes.BS3">
+  template: `
+  <template [ngIf]="config.theme == config.themes.BS3">
     <ul class="dropdown-menu"
         style="display: block"
         [ngStyle]="{top: top, left: left, display: display}"
@@ -33,7 +33,7 @@ import { TypeaheadDirective } from './typeahead.directive';
       </li>
     </ul>
   </template>
-  <template [ngSwitchCase]="config.themes.BS4">
+  <template [ngIf]="config.theme == config.themes.BS4">
     <div class="dropdown-menu"
          style="display: block"
          [ngStyle]="{top: top, left: left, display: display}"
@@ -60,8 +60,7 @@ import { TypeaheadDirective } from './typeahead.directive';
         </a>
       </div>
     </div>
-  </template>
-</template>`,
+  </template>`,
   encapsulation: ViewEncapsulation.None
 })
 export class TypeaheadContainerComponent {
@@ -77,8 +76,7 @@ export class TypeaheadContainerComponent {
   private display:string;
   private placement:string;
 
-  // tslint:disable-next-line:no-unused-variable
-  public constructor(element:ElementRef, options:TypeaheadOptions, config:Ng2BootstrapConfigService) {
+  public constructor(element:ElementRef, options:TypeaheadOptions, public config:Ng2BootstrapConfigService) {
     this.element = element;
     Object.assign(this, options);
   }

@@ -26,6 +26,6 @@
     "./ng2-bootstrap.ts"
   ],
   "angularCompilerOptions": {
-    "genDir": "temp"
+    "genDir": "factories"
   }
 }
