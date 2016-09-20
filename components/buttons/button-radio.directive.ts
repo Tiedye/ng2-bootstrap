@@ -14,8 +14,8 @@ export class ButtonRadioDirective implements ControlValueAccessor, OnInit {
   public onChange:any = Function.prototype;
   public onTouched:any = Function.prototype;
 
-  @Input() private btnRadio:string;
-  @Input() private uncheckable:boolean;
+  @Input() public btnRadio:string;
+  @Input() public uncheckable:boolean;
 
   @HostBinding('class.active')
   public get isActive():boolean {

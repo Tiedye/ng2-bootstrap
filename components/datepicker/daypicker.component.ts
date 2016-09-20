@@ -49,6 +49,7 @@ const TEMPLATE_OPTIONS:any = {
   }
 };
 
+// tslint:disable-next-line:no-unused-variable
 const CURRENT_THEME_TEMPLATE:any = TEMPLATE_OPTIONS[Ng2BootstrapConfig.theme || Ng2BootstrapTheme.BS3];
 
 @Component({
@@ -59,7 +60,7 @@ const CURRENT_THEME_TEMPLATE:any = TEMPLATE_OPTIONS[Ng2BootstrapConfig.theme || 
     <tr>
       <th>
         <button type="button" class="btn btn-default btn-secondary btn-sm pull-left" (click)="datePicker.move(-1)" tabindex="-1">
-        ${CURRENT_THEME_TEMPLATE.ARROW_LEFT}
+        &lt;
         </button>
       </th>
       <th [attr.colspan]="5 + datePicker.showWeeks">
@@ -73,19 +74,28 @@ const CURRENT_THEME_TEMPLATE:any = TEMPLATE_OPTIONS[Ng2BootstrapConfig.theme || 
       </th>
       <th>
         <button type="button" class="btn btn-default btn-secondary btn-sm pull-right" (click)="datePicker.move(1)" tabindex="-1">
-        ${CURRENT_THEME_TEMPLATE.ARROW_RIGHT}
+        &gt;
         </button>
       </th>
     </tr>
     <tr>
       <th *ngIf="datePicker.showWeeks"></th>
-      ${CURRENT_THEME_TEMPLATE.DAY_TITLE}
+      <th *ngFor="let labelz of labels" class="text-xs-center"><small aria-label="labelz.full"><b>{{labelz.abbr}}</b></small></th>
     </tr>
   </thead>
   <tbody>
     <template ngFor [ngForOf]="rows" let-rowz="$implicit" let-index="index">
       <tr *ngIf="!(datePicker.onlyCurrentMonth && rowz[0].secondary && rowz[6].secondary)">
-        ${CURRENT_THEME_TEMPLATE.WEEK_ROW}
+        <td *ngIf="datePicker.showWeeks" class="text-xs-center h6"><em>{{ weekNumbers[index] }}</em></td>
+        <td *ngFor="let dtz of rowz" class="text-xs-center" role="gridcell" [id]="dtz.uid">
+          <button type="button" style="min-width:100%;" class="btn btn-sm {{dtz.customClass}}"
+                  *ngIf="!(datePicker.onlyCurrentMonth && dtz.secondary)"
+                  [ngClass]="{'btn-secondary': !dtz.selected && !datePicker.isActive(dtz), 'btn-info': dtz.selected, disabled: dtz.disabled}"
+                  [disabled]="dtz.disabled"
+                  (click)="datePicker.select(dtz.date)" tabindex="-1">
+            <span [ngClass]="{'text-muted': dtz.secondary || dtz.current}">{{dtz.label}}</span>
+          </button>
+        </td>
       </tr>
     </template>
   </tbody>

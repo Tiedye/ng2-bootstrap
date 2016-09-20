@@ -2,11 +2,13 @@
 
 import { Component, Input, OnDestroy } from '@angular/core';
 
+// tslint:disable-next-line:no-unused-variable
 import { Ng2BootstrapConfig, Ng2BootstrapTheme } from '../ng2-bootstrap-config';
 import { SlideComponent } from './slide.component';
 
 export enum Direction {UNKNOWN, NEXT, PREV}
 
+// tslint:disable-next-line:no-unused-variable
 const NAVIGATION:any = {
   [Ng2BootstrapTheme.BS4]: `
     <a class="left carousel-control" (click)="prev()" *ngIf="slides.length">
@@ -45,7 +47,14 @@ const NAVIGATION:any = {
          <li *ngFor="let slidez of slides" [class.active]="slidez.active === true" (click)="select(slidez)"></li>
       </ol>
       <div class="carousel-inner"><ng-content></ng-content></div>
-      ${NAVIGATION[Ng2BootstrapConfig.theme]}
+      <a class="left carousel-control" (click)="prev()" *ngIf="slides.length">
+        <span class="icon-prev" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" (click)="next()" *ngIf="slides.length">
+        <span class="icon-next" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
     </div>
   `
 })
@@ -64,7 +73,8 @@ export class CarouselComponent implements OnDestroy {
     this.restartTimer();
   }
 
-  private slides:Array<SlideComponent> = [];
+  public slides:Array<SlideComponent> = [];
+
   private currentInterval:any;
   private isPlaying:boolean;
   private destroyed:boolean = false;

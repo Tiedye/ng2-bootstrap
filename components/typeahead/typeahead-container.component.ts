@@ -1,11 +1,13 @@
 import { Component, ElementRef, TemplateRef, ViewEncapsulation } from '@angular/core';
 
+// tslint:disable-next-line:no-unused-variable
 import { Ng2BootstrapConfig, Ng2BootstrapTheme } from '../ng2-bootstrap-config';
 import { positionService } from '../position';
 import { TypeaheadOptions } from './typeahead-options.class';
 import { TypeaheadUtils } from './typeahead-utils';
 import { TypeaheadDirective } from './typeahead.directive';
 
+// tslint:disable-next-line:no-unused-variable
 const TEMPLATE:any = {
   [Ng2BootstrapTheme.BS4]: `
   <div class="dropdown-menu"
@@ -62,7 +64,32 @@ const TEMPLATE:any = {
 };
 @Component({
   selector: 'typeahead-container',
-  template: TEMPLATE[Ng2BootstrapConfig.theme],
+  template: `<div class="dropdown-menu"
+       style="display: block"
+       [ngStyle]="{top: top, left: left, display: display}"
+       (mouseleave)="focusLost()">
+       <div *ngIf="!itemTemplate">
+          <a href="#"
+            *ngFor="let match of matches"
+            class="dropdown-item"
+            (click)="selectMatch(match, $event)"
+            (mouseenter)="selectActive(match)"
+            [class.active]="isActive(match)"
+            [innerHtml]="hightlight(match, query)"></a>
+      </div>
+      <div *ngIf="itemTemplate">
+        <a href="#"
+         *ngFor="let match of matches; let i = index"
+         class="dropdown-item"
+         (click)="selectMatch(match, $event)"
+         (mouseenter)="selectActive(match)"
+         [class.active]="isActive(match)">
+          <template [ngTemplateOutlet]="itemTemplate"
+                    [ngOutletContext]="{item: match, index: i}">
+          </template>
+         </a>
+      </div>
+  </div>`,
   encapsulation: ViewEncapsulation.None
 })
 export class TypeaheadContainerComponent {

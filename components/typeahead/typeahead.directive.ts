@@ -42,13 +42,13 @@ export class TypeaheadDirective implements OnInit {
   @Input() public typeaheadItemTemplate:TemplateRef<any>;
 
   // not yet implemented
-  // @Input() private typeaheadAppendToBody:boolean;
-  // @Input() private typeaheadEditable:boolean;
-  // @Input() private typeaheadFocusFirst:boolean;
-  // @Input() private typeaheadInputFormatter:any;
-  // @Input() private typeaheadSelectOnExact:boolean;
-  // @Input() private typeaheadSelectOnBlur:boolean;
-  // @Input() private typeaheadFocusOnSelect:boolean;
+  // @Input() public typeaheadAppendToBody:boolean;
+  // @Input() public typeaheadEditable:boolean;
+  // @Input() public typeaheadFocusFirst:boolean;
+  // @Input() public typeaheadInputFormatter:any;
+  // @Input() public typeaheadSelectOnExact:boolean;
+  // @Input() public typeaheadSelectOnBlur:boolean;
+  // @Input() public typeaheadFocusOnSelect:boolean;
 
   public container:TypeaheadContainerComponent;
   public isTypeaheadOptionsListActive:boolean = false;

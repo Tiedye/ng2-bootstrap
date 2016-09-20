@@ -8,7 +8,7 @@ const TEMPLATE_OPTIONS:any = {
   bs4: {
     YEAR_BUTTON: `
         <button type="button" style="min-width:100%;" class="btn btn-default"
-                [ngClass]="{'btn-info': dtz.selected, 'btn-link': !dtz.selected && !datePicker.isActive(dtz), 'btn-info': !dtz.selected && datePicker.isActive(dtz), disabled: dtz.disabled}"
+                [ngClass]="{'btn-info': dtz.selected, 'btn-link': !dtz.selected && !datePicker.isActive(dtz), active: !dtz.selected && datePicker.isActive(dtz), disabled: dtz.disabled}"
                 [disabled]="dtz.disabled"
                 (click)="datePicker.select(dtz.date)" tabindex="-1">
           <span [ngClass]="{'text-success': dtz.current}">{{dtz.label}}</span>
@@ -27,6 +27,7 @@ const TEMPLATE_OPTIONS:any = {
   }
 };
 
+// tslint:disable-next-line:no-unused-variable
 const CURRENT_THEME_TEMPLATE:any = TEMPLATE_OPTIONS[Ng2BootstrapConfig.theme] || TEMPLATE_OPTIONS.bs3;
 
 @Component({
@@ -61,7 +62,12 @@ const CURRENT_THEME_TEMPLATE:any = TEMPLATE_OPTIONS[Ng2BootstrapConfig.theme] ||
   <tbody>
     <tr *ngFor="let rowz of rows">
       <td *ngFor="let dtz of rowz" class="text-center" role="gridcell">
-      ${CURRENT_THEME_TEMPLATE.YEAR_BUTTON}
+      <button type="button" style="min-width:100%;" class="btn btn-default"
+                [ngClass]="{'btn-info': dtz.selected, 'btn-link': !dtz.selected && !datePicker.isActive(dtz), active: !dtz.selected && datePicker.isActive(dtz), disabled: dtz.disabled}"
+                [disabled]="dtz.disabled"
+                (click)="datePicker.select(dtz.date)" tabindex="-1">
+          <span [ngClass]="{'text-success': dtz.current}">{{dtz.label}}</span>
+        </button>
       </td>
     </tr>
   </tbody>

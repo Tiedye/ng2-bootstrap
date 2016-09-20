@@ -49,7 +49,7 @@ export class CollapseDirective implements OnInit {
   @HostBinding('class.collapsing')
   private isCollapsing:boolean = false;
 
-  // @Input() private transitionDuration:number = 500; // Duration in ms
+  // @Input() public transitionDuration:number = 500; // Duration in ms
 
   @Input()
   private set collapse(value:boolean) {
