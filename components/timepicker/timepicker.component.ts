@@ -196,7 +196,7 @@ export class TimepickerComponent implements ControlValueAccessor, OnInit {
     this.onTouched = fn;
   }
 
-  protected updateHours():void {
+  public updateHours():void {
     if (this.readonlyInput) {
       return;
     }
@@ -224,7 +224,7 @@ export class TimepickerComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  protected hoursOnBlur(/*event:Event*/):void {
+  public hoursOnBlur(/*event:Event*/):void {
     if (this.readonlyInput) {
       return;
     }
@@ -235,7 +235,7 @@ export class TimepickerComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  protected updateMinutes():void {
+  public updateMinutes():void {
     if (this.readonlyInput) {
       return;
     }
@@ -263,7 +263,7 @@ export class TimepickerComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  protected minutesOnBlur(/*event:Event*/):void {
+  public minutesOnBlur(/*event:Event*/):void {
     if (this.readonlyInput) {
       return;
     }
@@ -273,31 +273,31 @@ export class TimepickerComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  protected incrementHours():void {
+  public incrementHours():void {
     if (!this.noIncrementHours()) {
       this.addMinutesToSelected(this.hourStep * 60);
     }
   }
 
-  protected decrementHours():void {
+  public decrementHours():void {
     if (!this.noDecrementHours()) {
       this.addMinutesToSelected(-this.hourStep * 60);
     }
   }
 
-  protected incrementMinutes():void {
+  public incrementMinutes():void {
     if (!this.noIncrementMinutes()) {
       this.addMinutesToSelected(this.minuteStep);
     }
   }
 
-  protected decrementMinutes():void {
+  public decrementMinutes():void {
     if (!this.noDecrementMinutes()) {
       this.addMinutesToSelected(-this.minuteStep);
     }
   }
 
-  protected toggleMeridian():void {
+  public toggleMeridian():void {
     if (!this.noToggleMeridian()) {
       let sign = this.selected.getHours() < 12 ? 1 : -1;
       this.addMinutesToSelected(12 * 60 * sign);
